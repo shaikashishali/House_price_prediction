@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ViharaTech | House Price Prediction</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-house-chimney"></i>
+            </div>
+            <div>
+                <h2>ViharaTech</h2>
+                <p>ML Prediction System</p>
+            </div>
+        </div>
+
+        <div class="profile">
+
+            <img src="{{ url_for('static', filename='profile.jpg') }}"
+                 alt="Ashish Profile"
+                 onerror="this.src='https://placehold.co/120x120/172554/ffffff?text=AA'">
+
+            <h2>Shaik Ashish Ali</h2>
+
+            <span class="role">DATA SCIENCE</span>
+
+            <p class="profile-description">
+                Data Science Student | Machine Learning Enthusiast
+            </p>
+
+            <a href="mailto:ashishalishaik@gmail.com" class="email">
+                <i class="fa-solid fa-envelope"></i>
+                ashishalishaik@gmail.com
+            </a>
+
+        </div>
+
+        <div class="sidebar-info">
+
+            <h4>PROJECT DETAILS</h4>
+
+            <div class="side-item">
+                <i class="fa-solid fa-brain"></i>
+                <span>Random Forest Classifier</span>
+            </div>
+
+            <div class="side-item">
+                <i class="fa-solid fa-database"></i>
+                <span>House Price Dataset</span>
+            </div>
+
+            <div class="side-item">
+                <i class="fa-solid fa-code"></i>
+                <span>Python & Flask</span>
+            </div>
+
+        </div>
+
+        <div class="sidebar-footer">
+            <p>Developed by</p>
+            <h3>Ashish Ali</h3>
+            <span>© 2026 ViharaTech Project</span>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <div class="topbar">
+            <div>
+                <p class="welcome">WELCOME TO YOUR ML DASHBOARD</p>
+                <h1>House Price Prediction</h1>
+                <p class="subtitle">
+                    Predict house price categories using Machine Learning.
+                </p>
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                Model Ready
+            </div>
+        </div>
+
+
+        <!-- ACCURACY CARD -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fa-solid fa-bullseye"></i>
+                </div>
+                <div>
+                    <p>Model Accuracy</p>
+                    <h2>{{ accuracy }}%</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon purple">
+                    <i class="fa-solid fa-tree"></i>
+                </div>
+                <div>
+                    <p>ML Algorithm</p>
+                    <h2>Random Forest</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                    <p>Price Categories</p>
+                    <h2>3 Classes</h2>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- PRICE RANGE INFORMATION -->
+        <section class="range-section">
+
+            <h2><i class="fa-solid fa-tags"></i> Price Categories</h2>
+
+            <div class="range-grid">
+
+                <div class="range-card low">
+                    <span>LOW</span>
+                    <h3>$0 – $400,000</h3>
+                    <p>Affordable category</p>
+                </div>
+
+                <div class="range-card medium">
+                    <span>MEDIUM</span>
+                    <h3>$400,001 – $700,000</h3>
+                    <p>Mid-range category</p>
+                </div>
+
+                <div class="range-card high">
+                    <span>HIGH</span>
+                    <h3>Above $700,000</h3>
+                    <p>Premium category</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- INPUT FORM -->
+        <section class="form-card">
+
+            <div class="section-heading">
+                <div>
+                    <h2><i class="fa-solid fa-house"></i> Enter House Details</h2>
+                    <p>Fill in the property information to get a prediction.</p>
+                </div>
+            </div>
+
+            <form method="POST">
+
+                <div class="form-grid">
+
+                    {% for feature in numeric_features %}
+                    <div class="input-group">
+
+                        <label>
+                            {{ feature.replace('_', ' ').title() }}
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            name="{{ feature }}"
+                            placeholder="Enter {{ feature.replace('_', ' ') }}"
+                            required>
+
+                    </div>
+                    {% endfor %}
+
+
+                    <div class="input-group">
+                        <label>City</label>
+
+                        <select name="city" required>
+                            {% for city in cities %}
+                            <option value="{{ city }}">{{ city }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+
+                    <div class="input-group">
+                        <label>ZIP Code</label>
+
+                        <select name="statezip" required>
+                            {% for zip in zipcodes %}
+                            <option value="{{ zip }}">{{ zip }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="predict-button">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Predict House Price Category
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- PREDICTION RESULT -->
+        {% if result %}
+
+        <section class="prediction-card">
+
+            <div class="prediction-heading">
+                <i class="fa-solid fa-chart-line"></i>
+                <h2>Prediction Result</h2>
+            </div>
+
+            <p class="prediction-label">Predicted House Category</p>
+
+            <h1 class="prediction-category {{ result|lower }}">
+                {{ result }}
+            </h1>
+
+            <div class="predicted-range">
+
+                <p>Estimated Price Range</p>
+
+                {% if result == 'Low' %}
+                    <h2>$0 – $400,000</h2>
+
+                {% elif result == 'Medium' %}
+                    <h2>$400,001 – $700,000</h2>
+
+                {% elif result == 'High' %}
+                    <h2>Above $700,000</h2>
+                {% endif %}
+
+            </div>
+
+            <p class="disclaimer">
+                <i class="fa-solid fa-circle-info"></i>
+                This is a predicted category and price range,
+                not an exact property valuation.
+            </p>
+
+        </section>
+
+        {% endif %}
+
+
+        <!-- ERROR MESSAGE -->
+        {% if error %}
+
+        <div class="error-message">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <!-- MODEL PERFORMANCE -->
+        <section class="performance-card">
+
+            <h2><i class="fa-solid fa-chart-column"></i> Model Performance</h2>
+
+            <p class="performance-subtitle">
+                Evaluation results from the model's test dataset.
+            </p>
+
+            <h3>Confusion Matrix</h3>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <tr>
+                        <th>Actual / Predicted</th>
+                        <th>Low</th>
+                        <th>Medium</th>
+                        <th>High</th>
+                    </tr>
+
+                    {% for row in conf_matrix %}
+                    <tr>
+
+                        {% if loop.index == 1 %}
+                            <th>Low</th>
+                        {% elif loop.index == 2 %}
+                            <th>Medium</th>
+                        {% else %}
+                            <th>High</th>
+                        {% endif %}
+
+                        {% for value in row %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+
+                    </tr>
+                    {% endfor %}
+
+                </table>
+
+            </div>
+
+
+            <h3>Classification Report</h3>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <tr>
+                        <th>Category</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1 Score</th>
+                    </tr>
+
+                    {% for category in ['Low', 'Medium', 'High'] %}
+                    <tr>
+                        <td>{{ category }}</td>
+
+                        <td>
+                            {{ "%.2f"|format(report[category]['precision']) }}
+                        </td>
+
+                        <td>
+                            {{ "%.2f"|format(report[category]['recall']) }}
+                        </td>
+
+                        <td>
+                            {{ "%.2f"|format(report[category]['f1-score']) }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+            <p>
+                Designed & Developed by <strong>Shaik Ashish Ali</strong>
+                | Data Science Project
+            </p>
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>
